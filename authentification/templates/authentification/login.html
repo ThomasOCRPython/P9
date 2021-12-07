@@ -1,0 +1,23 @@
+
+{% extends 'base.html' %}
+{% block content %}
+    
+    <p cl>{{ message }}</p>
+    <div class="form-group container ">
+        <form method="post">
+            <div class="row justify-content-evenly ">
+                <div class="col-md-4" >
+                <h2 class="p-2">Pas encore membre ? </h2>
+                <a class="btn btn-secondary" href="{% url 'signup' %}">Inscrivez-vous maintenant !</a>
+                </div>
+                <div class="col-md-4 ms-auto">
+                    <h2 class="p-2">Connectez-vous</h2>
+                    {{ form.as_p }}
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-secondary">Se connecter</button>
+                </div>
+            </div> 
+        </form>
+    </div>
+    
+{% endblock content %}
