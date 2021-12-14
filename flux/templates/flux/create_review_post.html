@@ -1,11 +1,14 @@
 {% extends 'base.html' %}
 {% block content %}
     <div class="group-form">
+        
+
         <h2>Create a review</h2>
         <form method="post" > 
             {{ review_form.as_p }}
             {% csrf_token %}
-            <button class="btn btn-primary m-2 " type="submit" >Publier</button>
+            
+            <button type="submit" class="btn btn-primary m-2">Publier</button>
         </form>
     </div>
 {% endblock content %}

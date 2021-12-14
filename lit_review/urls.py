@@ -2,10 +2,11 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.auth.views import LoginView
-from django.urls import path
+from django.urls import path, include
 
 import authentification.views
-import flux.views
+import flux.urls
+
 
 
 urlpatterns = [
@@ -16,15 +17,7 @@ urlpatterns = [
         name='login'),
     path('logout/', authentification.views.logout_user, name='logout'),
     path('signup/', authentification.views.signup_page, name='signup'),
-    path('home/', flux.views.home, name='home'),
-    path('ticket/create/', flux.views.ticket, name='ticket_create'),
-    path('flux/<int:ticket_id>/', flux.views.view_ticket, name='view_ticket'),
-    path('<int:ticket_id>/review/create/', flux.views.review, name='review_create'),
-    
-    
-    
-    
-    
+    path('home/', include(flux.urls)),
 ]
 
 if settings.DEBUG:

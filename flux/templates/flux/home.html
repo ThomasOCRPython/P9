@@ -3,29 +3,31 @@
     <a class="btn btn-dark m-2 " href="{% url 'ticket_create' %}">Create a ticket</a>
     <h2 class="m-2">Flux</h2>
     <div class="grid-container">       
-        {% for ticket in tickets %}
-            <a class="btn btn-warning m-2 " href="{% url 'view_ticket' ticket.id %}"></a>
+        {% for post in posts %} 
+            {% if post.content_type == 'TICKET' %}
+            <a class="btn btn-warning m-2 " href="{% url 'view_ticket' post.id %}"></a>
             <div class="post border border border-secondary rounded m-2">
                 <div class="d-flex flex-row">
-                    <p class="p-2 h5 text-primary">{{ ticket.user }}</p>
-                    <p class="p-2 h5 text-primary">{{ ticket.id }}</p>
-                    <p class=" p-2 ms-auto">{{ ticket.date_created }} </p>
+                    <p class="p-2 h5 text-primary">{{ post.user }}</p>
+                    <p class="p-2 h5 text-primary">{{ post.id }}</p>
+                    <p class=" p-2 ms-auto">{{ post.date_created }} </p>
                 </div>
-                <h4 class="p-2">Ticket : {{ ticket.title }}</h4>
-                {% if ticket.image %}
-                    <img class="p-2" src="{{ ticket.image.url }}">
+                <h4 class="p-2">post : {{ post.title }}</h4>
+                {% if post.image %}
+                    <img class="p-2" src="{{ post.image.url }}">
                 {% endif %}
                 <p class="p-2 h5 text-warning">{{ review.headline }}</p>
-                <a class="btn btn-dark m-2 " href="{% url 'review_create'  ticket.id  %}">Create a review</a>
-                {% for review in reviews %}
-                    <p class="p-2 h5 text-warning">{{ review.headline }}</p>
-                {% endfor %}
-                <h2>{{ review.title }}</h2>
-                <p><a class="btn btn-secondary m-2 " href="{% url 'review_create' ticket.id %}">Modifier le billet</a></p>
-                
-                <p>{{ reviews.rating }}</p>
-                <p>{{ reviews.headline }}</p>
+                <a class="btn btn-dark m-2 " href="{% url 'review_create'  post.id  %}">Create a review</a>
             </div>
+            {% elif post.content_type == 'REVIEW' %}
+                
+                <p class="p-2 h5 text-warning">{{ post.headline }}</p>
+                <p class="p-2 h5 text-warning">{{ post.rating }}</p>
+                <p class="p-2 h5 text-warning">{{ post.body }}</p>
+                    
+                    
+            {% endif %}
+            
         {% endfor %}    
         
     </div>
