@@ -1,32 +1,74 @@
 {% extends 'base.html' %}
+
+
 {% block content %}
-    <a class="btn btn-dark m-2 " href="{% url 'ticket_create' %}">Create a ticket</a>
-    <h2 class="m-2">Flux</h2>
-    <div class="grid-container">       
+    
+
+    <a class="btn btn-dark m-4 " href="{% url 'ticket_create' %}">Create a ticket</a>
+    <a class="btn btn-dark m-4 " href="{% url 'ticket_and_review_create' %}">Create a ticket and review</a>
+    <h2 class="m-4">Flux</h2>
+    <div class="grid-container"> 
+
         {% for post in posts %} 
+            
+
             {% if post.content_type == 'TICKET' %}
-            <a class="btn btn-warning m-2 " href="{% url 'view_ticket' post.id %}"></a>
-            <div class="post border border border-secondary rounded m-2">
-                <div class="d-flex flex-row">
-                    <p class="p-2 h5 text-primary">{{ post.user }}</p>
-                    <p class="p-2 h5 text-primary">{{ post.id }}</p>
-                    <p class=" p-2 ms-auto">{{ post.date_created }} </p>
+                <!-- <a class="btn btn-warning m-2 " href="{% url 'view_ticket' post.id %}"></a> -->
+                <div class="post border border border-secondary rounded m-4 ">
+                    <div class="d-flex flex-row">
+                        <p class="p-2 h5 text-primary">{{ post.user }}</p>
+                        <p class="p-2 h5 text-primary">{{ post.id }}</p>
+                        <p class=" p-2 ms-auto">{{ post.date_created|date:"d F Y" }} </p>
+                    </div>
+                    <h4 class="p-2">post : {{ post.title }}</h4>
+                    {% if post.image %}
+                        <img class="p-2" src="{{ post.image.url }}">
+                    {% endif %}
+                    <p class="p-2 h5">{{ post.content }}</p>
+                    {%if post.starred == False %}
+                     <a class="btn btn-dark m-2 " href="{% url 'review_create'  post.id  %}">Create a review</a>
+                    {% endif %}
+                    
+                    
+                    
                 </div>
-                <h4 class="p-2">post : {{ post.title }}</h4>
-                {% if post.image %}
-                    <img class="p-2" src="{{ post.image.url }}">
-                {% endif %}
-                <p class="p-2 h5 text-warning">{{ review.headline }}</p>
-                <a class="btn btn-dark m-2 " href="{% url 'review_create'  post.id  %}">Create a review</a>
-            </div>
             {% elif post.content_type == 'REVIEW' %}
+                <div class="card-block border border-secondary m-4">
                 
-                <p class="p-2 h5 text-warning">{{ post.headline }}</p>
-                <p class="p-2 h5 text-warning">{{ post.rating }}</p>
-                <p class="p-2 h5 text-warning">{{ post.body }}</p>
+                    <p class="p-2 h5 text-dark">{{ post.headline }}</p>
+                    <p class="p-2 h5 text-dark">{{ post.rating }}</p>
+                    <p class="p-2 h5 text-dark">{{ post.body }}</p>
+                    <div class=" border border border-secondary rounded m-6"></div>
+                        <p class="p-2 h5 text-dark">{{ post.ticket.title }}</p>
+                        {% if post.ticket.image %}
+                            <img class="p-2" src="{{ post.ticket.image.url }}">
+                        {% endif %}
+                        <p class="p-2 h5">{{ post.ticket.content }}</p>
+                    </div>
+                
+                </div>
+            {% elif post.content_type == 'REVIEW' and post.content_type == 'TICKET' %} 
+                <div class="post border border border-secondary rounded m-4">
+                    <div class="d-flex flex-row">
+                        <p class="p-2 h5 text-primary">{{ post.user }}</p>
+                        <p class="p-2 h5 text-primary">{{ post.id }}</p>
+                        <p class=" p-2 ms-auto">{{ post.date_created|date:"d F Y"}} </p>
+                    </div>
+                    <h4 class="p-2">post : {{ post.title }}</h4>
+                    {% if post.image %}
+                        <img class="p-2" src="{{ post.image.url }}">
+                    {% endif %}
+                    <div class="post border border border-secondary rounded m-4">
                     
+                        <p class="p-2 h5 text-dark">{{ post.headline }}</p>
+                        <p class="p-2 h5 text-dark">{{ post.rating }}</p>
+                        <p class="p-2 h5 text-dark">{{ post.body }}</p>
                     
+                    </div> class="btn btn-dark m-2 " href="{% url 'review_create'  post.id  %}">Create a review</a>
+                </div>
+
             {% endif %}
+            
             
         {% endfor %}    
         

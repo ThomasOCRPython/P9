@@ -5,12 +5,25 @@ from django.db import models
 from PIL import Image
 
 
+
 class Ticket(models.Model):
     title = models.CharField(max_length=128)
     content = models.TextField(max_length=2048, blank=True, null=True)
     image = models.ImageField(null=True, blank=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     date_created = models.DateTimeField(auto_now_add=True)
+    starred = models.BooleanField(default=False)
+    
+    IMAGE_MAX_SIZE = (200, 200)
+    
+    def resize_image(self):
+        image = Image.open(self.image)
+        image.thumbnail(self.IMAGE_MAX_SIZE)
+        image.save(self.image.path)
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        self.resize_image()
 
     
 class Review(models.Model):
@@ -20,5 +33,8 @@ class Review(models.Model):
     headline = models.CharField(max_length=128)
     body = models.TextField(max_length=8192, blank=True, null=True)
     date_created = models.DateTimeField(auto_now_add=True)
+    
+
+    
     
     

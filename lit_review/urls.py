@@ -4,7 +4,7 @@ from django.contrib import admin
 from django.contrib.auth.views import LoginView
 from django.urls import path, include
 
-import authentification.views
+import authentification.views, followers.views
 import flux.urls
 
 
@@ -18,6 +18,7 @@ urlpatterns = [
     path('logout/', authentification.views.logout_user, name='logout'),
     path('signup/', authentification.views.signup_page, name='signup'),
     path('home/', include(flux.urls)),
+    path('user_follow/', followers.views.user_follow, name='user_follow'),
 ]
 
 if settings.DEBUG:

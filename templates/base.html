@@ -23,7 +23,7 @@
           <a class="nav-link text-white m-2" href="{% url 'home' %}">Posts</a>
         </li>
         <li class="nav-item active">
-          <a class="nav-link text-white m-2" href="{% url 'home' %}">Fallowers</a>
+          <a class="nav-link text-white m-2" href="{% url 'user_follow' %}">Followers</a> 
         </li>
         <li class="nav-item">
           <a class="nav-link text-white m-2" href="{% url 'logout' %}">Logout</a>
@@ -35,7 +35,7 @@
       </nav>
       <div class="container">
         {%  if user.is_authenticated %}
-                <p class="m-2">Vous êtes connecté en tant que {{ request.user }}.</p> 
+                <p class="m-4 h5 text.secondary">You are logged in as {{ request.user }}.</p> 
                 <!-- <a class="btn btn-secondary p-2" href="{% url 'logout' %}">Se déconnecter</a> -->
         {% endif %}
         {% block content %}{% endblock content %}
