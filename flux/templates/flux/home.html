@@ -48,7 +48,7 @@
                 
                 </div>
             {% elif post.content_type == 'REVIEW' and post.content_type == 'TICKET' %} 
-                <div class="post border border border-secondary rounded m-4">
+                <table class="post table-bordered  border-secondary rounded m-4">
                     <div class="d-flex flex-row">
                         <p class="p-2 h5 text-primary">{{ post.user }}</p>
                         <p class="p-2 h5 text-primary">{{ post.id }}</p>
@@ -58,14 +58,14 @@
                     {% if post.image %}
                         <img class="p-2" src="{{ post.image.url }}">
                     {% endif %}
-                    <div class="post border border border-secondary rounded m-4">
+                    <table class=" post table-bordered  border-secondary rounded m-4">
                     
-                        <p class="p-2 h5 text-dark">{{ post.headline }}</p>
-                        <p class="p-2 h5 text-dark">{{ post.rating }}</p>
-                        <p class="p-2 h5 text-dark">{{ post.body }}</p>
+                        <p class="p-4 h5 text-dark">{{ post.headline }}</p>
+                        <p class="p-4 h5 text-dark">{{ post.rating }}</p>
+                        <p class="p4 h5 text-dark">{{ post.body }}</p>
                     
-                    </div> class="btn btn-dark m-2 " href="{% url 'review_create'  post.id  %}">Create a review</a>
-                </div>
+                    </table> class="btn btn-dark m-2 " href="{% url 'review_create'  post.id  %}">Create a review</a>
+                </table>
 
             {% endif %}
             

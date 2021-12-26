@@ -6,6 +6,7 @@ from django.urls import path, include
 
 import authentification.views, followers.views
 import flux.urls
+import followers.urls
 
 
 
@@ -18,7 +19,8 @@ urlpatterns = [
     path('logout/', authentification.views.logout_user, name='logout'),
     path('signup/', authentification.views.signup_page, name='signup'),
     path('home/', include(flux.urls)),
-    path('user_follow/', followers.views.user_follow, name='user_follow'),
+    path('user_follow/', include(followers.urls)),
+    
 ]
 
 if settings.DEBUG:

@@ -26,6 +26,35 @@ def view_ticket(request, ticket_id):
     ticket = get_object_or_404(models.Ticket, id=ticket_id)
     return render(request, 'flux/view_ticket.html', {'ticket': ticket})
 
+@login_required
+def edit_ticket(request, ticket_id):
+    ticket = get_object_or_404(models.Ticket, id=ticket_id)
+    edit_form = forms.TicketForm(instance=ticket)
+    delete_form = forms.DeleteTicketForm()
+    if request.method == 'POST':
+        if 'edit_ticket' in request.POST:
+            edit_form = forms.TicketForm(request.POST, instance=ticket)
+            if edit_form.is_valid():
+                edit_form.save()
+                return redirect('posts')
+            if 'delete_ticket' in request.POST:
+                delete_form = forms.DeleteTicketForm(request.POST)
+                if delete_form.is_valid():
+                    ticket.delete()
+                    return redirect('posts')
+    context = {
+        'edit_form': edit_form,
+        'delete_form': delete_form,
+    }
+    return render(request, 'flux/edit_ticket.html', context=context)
+
+@login_required
+def delete_ticket(request, ticket_id):
+    ticket = get_object_or_404(models.Ticket, id=ticket_id)
+    ticket.delete()
+    return redirect('posts')
+    
+
 
 
 
@@ -67,7 +96,24 @@ def ticket_and_review(request):
         'review_form': review_form,
         'ticket_form': ticket_form,
     }
-    return render(request, 'flux/create_ticket_and_review_post.html', context=context)   
+    return render(request, 'flux/create_ticket_and_review_post.html', context=context) 
+
+@login_required
+def posts(request):
+    tickets = models.Ticket.objects.filter(user=request.user)
+    reviews = models.Review.objects.filter(user=request.user)
+    tickets = tickets.annotate(content_type=Value('TICKET', CharField()))
+    reviews = reviews.annotate(content_type=Value('REVIEW', CharField()))
+    
+
+    posts = sorted(
+        chain(reviews, tickets),
+        key=lambda post: post.date_created,
+        reverse=True
+    )
+    context = {'posts': posts}
+    
+    return render(request, 'flux/posts.html', context=context) 
 
 
 @login_required

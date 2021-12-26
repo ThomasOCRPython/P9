@@ -1,10 +1,42 @@
 {% extends 'base.html' %}
 {% block content %}
+<div class="row">
     <h2>Suivre des utilisateurs</h2>
     <form method="post">
-        {{ form.username }}
+        {% for user in all_user %} 
+        <option value="name">{{ user.username }}</option>
+        {% endfor %}
+        <p class="text-warning">{{ form.following }}</p>
         {{ form.as_p }}
         {% csrf_token %}
         <button type="submit" >Confirmer</button>
     </form>
+    <div class="row text-center mb-3">
+        <h4>Abonnements</h4>
+        <table class="table table-sm table-bordered border-dark">
+                <tbody>
+                    {% for user in following %}
+                    <tr>
+                        <td>{{ user.followed_user.username }}</td>
+                        <td><a href="{% url 'delete_user_follow'  user.followed_user.id  %}" class="btn btn-danger">Désabonner</a></td>
+                        <p>{{ user.followed_user.id }}</p>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+    </div>
+    <div class="row text-center">
+            <h4>Abonnés</h4>
+            <table class="table table-sm table-bordered border-dark text-start">
+                <tbody>
+                    {% for user in followed_by %}
+                    <tr>
+                        <td>{{ user.user.username }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+</div>
 {% endblock content %}

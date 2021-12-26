@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    {% for post in posts %} 
+                
+
+        {% if post.content_type == 'TICKET' %}
+            
+            <div class="post border border border-secondary rounded m-4 ">
+                <div class="d-flex flex-row">
+                    <p class="p-2 h5 text-primary">{{ post.user }}</p>
+                    <p class="p-2 h5 text-primary">{{ post.id }}</p>
+                    <p class=" p-2 ms-auto">{{ post.date_created|date:"d F Y" }} </p>
+                </div>
+                <h4 class="p-2">post : {{ post.title }}</h4>
+                {% if post.image %}
+                    <img class="p-2" src="{{ post.image.url }}">
+                {% endif %}
+                <p class="p-2 h5">{{ post.content }}</p>
+                <p><a class=" btn btn-danger m-2" href="{% url 'edit_ticket' post.id %}">Modifier le billet</a></p>
+                <p><a class=" btn btn-danger m-2" href="{% url 'delete_ticket' post.id %}">Supprimer le billet</a></p>
+                
+                
+            </div>
+        {% elif post.content_type == 'REVIEW' %}
+            <div class="card-block border border-secondary m-4">
+            
+                <p class="p-2 h5 text-dark">{{ post.headline }}</p>
+                <p class="p-2 h5 text-dark">{{ post.rating }}</p>
+                <p class="p-2 h5 text-dark">{{ post.body }}</p>
+                <div class=" border border border-secondary rounded m-6"></div>
+                    <p class="p-2 h5 text-dark">{{ post.ticket.title }}</p>
+                    {% if post.ticket.image %}
+                        <img class="p-2" src="{{ post.ticket.image.url }}">
+                    {% endif %}
+                    <p class="p-2 h5">{{ post.ticket.content }}</p>
+                </div>
+            
+            </div>
+        {% elif post.content_type == 'REVIEW' and post.content_type == 'TICKET' %} 
+            <table class="post table-bordered  border-secondary rounded m-4">
+                <div class="d-flex flex-row">
+                    <p class="p-2 h5 text-primary">{{ post.user }}</p>
+                    <p class="p-2 h5 text-primary">{{ post.id }}</p>
+                    <p class=" p-2 ms-auto">{{ post.date_created|date:"d F Y"}} </p>
+                </div>
+                <h4 class="p-2">post : {{ post.title }}</h4>
+                {% if post.image %}
+                    <img class="p-2" src="{{ post.image.url }}">
+                {% endif %}
+                <table class=" post table-bordered  border-secondary rounded m-4">
+                
+                    <p class="p-4 h5 text-dark">{{ post.headline }}</p>
+                    <p class="p-4 h5 text-dark">{{ post.rating }}</p>
+                    <p class="p4 h5 text-dark">{{ post.body }}</p>
+                
+                
+            </table>
+
+        {% endif %}
+
+
+    {% endfor %}    
+
+{% endblock %}
