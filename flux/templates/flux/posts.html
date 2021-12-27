@@ -36,6 +36,8 @@
                     {% endif %}
                     <p class="p-2 h5">{{ post.ticket.content }}</p>
                 </div>
+                <p><a class=" btn btn-danger m-2" href="{% url 'edit_review' post.id %}">Modifier la review</a></p>
+                <p><a class=" btn btn-danger m-2" href="{% url 'delete_review' post.id %}">Supprimer la review</a></p>
             
             </div>
         {% elif post.content_type == 'REVIEW' and post.content_type == 'TICKET' %} 
@@ -54,6 +56,9 @@
                     <p class="p-4 h5 text-dark">{{ post.headline }}</p>
                     <p class="p-4 h5 text-dark">{{ post.rating }}</p>
                     <p class="p4 h5 text-dark">{{ post.body }}</p>
+                
+                <p><a class=" btn btn-danger m-2" href="{% url 'edit_ticket' post.id %}">Modifier le billet</a></p>
+                <p><a class=" btn btn-danger m-2" href="{% url 'delete_ticket' post.id %}">Supprimer le billet</a></p>
                 
                 
             </table>

@@ -74,7 +74,42 @@ def review(request, ticket_id=None):
             ticket.save()
             return redirect('home')   
     return render(request, 'flux/create_review_post.html', context={'review_form': review_form, 'ticket' : ticket})
-            
+
+
+@login_required
+def edit_review(request, review_id):
+    review = get_object_or_404(models.Review, id=review_id)
+    edit_form = forms.ReviewForm(instance=review)
+    delete_form = forms.DeleteReviewForm()
+    if request.method == 'POST':
+        if 'edit_review' in request.POST:
+            edit_form = forms.ReviewForm(request.POST, instance=review)
+            if edit_form.is_valid():
+                edit_form.save()
+                return redirect('posts')
+            if 'delete_review' in request.POST:
+                delete_form = forms.DeleteReviewForm(request.POST)
+                if delete_form.is_valid():
+                    review.delete()
+                    return redirect('posts')
+    context = {
+        'edit_form': edit_form,
+        'delete_form': delete_form,
+    }
+    return render(request, 'flux/edit_review.html', context=context)
+
+@login_required
+def delete_review(request, review_id):
+    review = get_object_or_404(models.Review, id=review_id)
+    ticket_id = review.ticket_id
+    ticket = get_object_or_404(models.Ticket,id=ticket_id)
+    ticket.starred = False
+    ticket.save()
+    review.delete()
+    return redirect('posts')
+
+
+
 @login_required
 def ticket_and_review(request):
     review_form = forms.ReviewForm()
@@ -92,9 +127,11 @@ def ticket_and_review(request):
             review.ticket = ticket
             review.save()
             return redirect('home')
+            
     context = {
         'review_form': review_form,
         'ticket_form': ticket_form,
+        
     }
     return render(request, 'flux/create_ticket_and_review_post.html', context=context) 
 

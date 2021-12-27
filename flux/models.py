@@ -19,11 +19,14 @@ class Ticket(models.Model):
     def resize_image(self):
         image = Image.open(self.image)
         image.thumbnail(self.IMAGE_MAX_SIZE)
+
         image.save(self.image.path)
 
     def save(self, *args, **kwargs):
+    
         super().save(*args, **kwargs)
-        self.resize_image()
+        if self.image:
+            self.resize_image()
 
     
 class Review(models.Model):
@@ -33,6 +36,15 @@ class Review(models.Model):
     headline = models.CharField(max_length=128)
     body = models.TextField(max_length=8192, blank=True, null=True)
     date_created = models.DateTimeField(auto_now_add=True)
+
+    
+
+
+
+        
+
+    
+
     
 
     

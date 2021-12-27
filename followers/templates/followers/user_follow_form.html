@@ -2,13 +2,11 @@
 {% block content %}
 <div class="row">
     <h2>Suivre des utilisateurs</h2>
-    <form method="post">
-        {% for user in all_user %} 
-        <option value="name">{{ user.username }}</option>
-        {% endfor %}
-        <p class="text-warning">{{ form.following }}</p>
-        {{ form.as_p }}
-        {% csrf_token %}
+    <form  method="post">
+        
+        <p  class="text-warning">{{ form.following }}</p>
+            {{ form.as_p }}
+            {% csrf_token %}
         <button type="submit" >Confirmer</button>
     </form>
     <div class="row text-center mb-3">
@@ -19,7 +17,7 @@
                     <tr>
                         <td>{{ user.followed_user.username }}</td>
                         <td><a href="{% url 'delete_user_follow'  user.followed_user.id  %}" class="btn btn-danger">Désabonner</a></td>
-                        <p>{{ user.followed_user.id }}</p>
+                        <!-- <p>{{ user.followed_user.id }}</p> -->
                     </tr>
                     {% endfor %}
                 </tbody>

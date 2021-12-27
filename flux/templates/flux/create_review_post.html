@@ -1,21 +1,50 @@
 {% extends 'base.html' %}
 {% block content %}
-    <div class="group-form">
+    <div  class="group-form">
         {% if ticket.id == None %}
-        <h2>Create a review</h2>
-        <form method="post" > 
-            {{ review_form.as_p }}
-            {% csrf_token %}
-            
-            <button type="submit" class="btn btn-primary m-2">Publier</button>
-        </form>
-        {% elif ticket.id  %}
             <h2>Create a review</h2>
-            <form method="post" > 
+            <form   method="POST" >
+                {% for radio in review_form.rating %}
+                    <div class="form-check form-check-inline">
+                        {{ radio }}   
+                    </div>
+                {% endfor %}
+            <!-- <form   method="POST" > 
+                <div class="m-2">
+                    {{ review_form.headline }}
+                </div>
+                <label class="m-2" >
+                    {% for radio in review_form.rating %}
+                        {{ radio }}
+                    {% endfor %}
+                </label>
+                <div class="m-2">
+                    {{ review_form.body }}
+                </div> -->
                 {{ review_form.as_p }}
                 {% csrf_token %}
+                <button class="btn btn-primary m-2" type="submit">Publier</button>
+            </form>
+        {% elif ticket.id  %}
+            <h2>Create a review</h2>
+            <form   method="post" action="{% url  'review_create' ticket.id %}" >
+                {% for radio in review_form.rating %}
+                <div class="form-check form-check-inline">
+                    {{ radio }}   
+                </div>
+                {% endfor %}
+            
+                <div class="m-2">
+                    {{ review_form.headline }}
+                </div>
                 
-                <button type="submit" class="btn btn-primary m-2">Publier</button>
+                
+                <div class="m-2">
+                    {{ review_form.body }}
+                </div>
+            
+                {% csrf_token %}
+                <button class="btn btn-primary m-2" type="submit">Publier</button>
             </form>
         {% endif %}
     </div>

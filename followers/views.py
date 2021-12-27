@@ -14,7 +14,7 @@ def user_follow(request):
     following = models.UserFollow.objects.filter(user__exact=request.user)
     followed_by = models.UserFollow.objects.filter(followed_user__exact=request.user)
     
-    all_user = User.objects.all()
+    
 
     if request.method == 'POST':
         user_form = forms.UserFollowsForm(request.POST)
@@ -28,7 +28,7 @@ def user_follow(request):
             models.UserFollow.objects.create(user=request.user, followed_user=user)
             return redirect('user_follow')
     return render(request, 'followers/user_follow_form.html',
-        context = {'following': following, 'followed_by': followed_by, "form": user_form, "all_user": all_user}) 
+        context = {'following': following, 'followed_by': followed_by, "form": user_form}) 
 
 
 @login_required

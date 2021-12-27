@@ -10,45 +10,85 @@
     <div class="grid-container"> 
 
         {% for post in posts %} 
-            
 
+            
+        <div class="container border border border-secondary m-2 row" >
             {% if post.content_type == 'TICKET' %}
                 <!-- <a class="btn btn-warning m-2 " href="{% url 'view_ticket' post.id %}"></a> -->
-                <div class="post border border border-secondary rounded m-4 ">
-                    <div class="d-flex flex-row">
-                        <p class="p-2 h5 text-primary">{{ post.user }}</p>
-                        <p class="p-2 h5 text-primary">{{ post.id }}</p>
-                        <p class=" p-2 ms-auto">{{ post.date_created|date:"d F Y" }} </p>
+                <div  class="post  m-4" >
+                    <div class="row">
+                        <p class="p-2 h5 text-primary col-2">{{ post.user }}</p>
+                        <p class="p-2 h5 text-primary col-4">{{ post.id }}</p>
+                        <p class=" p-2 ms-auto col-2">{{ post.date_created|date:"d F Y" }} </p>
                     </div>
-                    <h4 class="p-2">post : {{ post.title }}</h4>
+                    <h4 class="p-2 col-2">post : {{ post.title }}</h4>
+                    
                     {% if post.image %}
-                        <img class="p-2" src="{{ post.image.url }}">
+                        <img class="p-2 col-2" src="{{ post.image.url }}">
                     {% endif %}
-                    <p class="p-2 h5">{{ post.content }}</p>
+                    <p class="p-2 h5 col-4>{{ post.content }}"></p>
                     {%if post.starred == False %}
-                     <a class="btn btn-dark m-2 " href="{% url 'review_create'  post.id  %}">Create a review</a>
+                    <div style="float: right;padding:12px 30px 14px"><a class= "btn btn-dark btn-default" type="submit" class="col-2" href="{% url 'review_create'  post.id  %}">Create a review</a></div>
+                    
+                    <!-- <a class="btn btn-dark  m-2 " class="col-2" href="{% url 'review_create'  post.id  %}">Create a review</a> -->
                     {% endif %}
+                    
                     
                     
                     
                 </div>
             {% elif post.content_type == 'REVIEW' %}
-                <div class="card-block border border-secondary m-4">
-                
+                <div class=" m-4">
                     <p class="p-2 h5 text-dark">{{ post.headline }}</p>
-                    <p class="p-2 h5 text-dark">{{ post.rating }}</p>
+                    <!-- <p class="p-2 h5 text-dark">{{ post.rating }}</p> -->
+                    
+                    {% if post.rating == 0 %}
+                        <span style="font-size:300%;color:rgb(0, 0, 0);">&#x2606;</span>     
+                        <span style="font-size:300%;color:rgb(0, 0, 0);">&#x2606;</span>     
+                        <span style="font-size:300%;color:rgb(0, 0, 0);">&#x2606;</span>     
+                        <span style="font-size:300%;color:rgb(0, 0, 0);">&#x2606;</span>     
+                        <span style="font-size:300%;color:rgb(0, 0, 0);">&#x2606;</span>     
+                             
+                    {% elif post.rating == 1  %}
+                        <span style="font-size:300%;color:rgb(255, 230, 0);">&#x2605;</span>
+                            
+                    {% elif post.rating == 2  %}
+                        <span style="font-size:300%;color:rgb(255, 230, 0);">&starf;</span>
+                        <span style="font-size:300%;color:rgb(255, 230, 0);">&starf;</span>
+                        
+                    {% elif post.rating == 3  %}
+                        <span style="font-size:300%;color:rgb(255, 230, 0);">&starf;</span>
+                        <span style="font-size:300%;color:rgb(255, 230, 0);">&starf;</span>      
+                        <span style="font-size:300%;color:rgb(255, 230, 0);">&starf;</span>
+                            
+                    {% elif post.rating == 4  %}
+                        <span style="font-size:300%;color:rgb(255, 230, 0);">&starf;</span>
+                        <span style="font-size:300%;color:rgb(255, 230, 0);">&starf;</span>      
+                        <span style="font-size:300%;color:rgb(255, 230, 0);">&starf;</span>      
+                        <span style="font-size:300%;color:rgb(255, 230, 0);">&starf;</span>
+                    
+                    {% elif post.rating == 5  %}
+                        <span style="font-size:300%;color:rgb(255, 230, 0);">&starf;</span>
+                        <span style="font-size:300%;color:rgb(255, 230, 0);">&starf;</span>      
+                        <span style="font-size:300%;color:rgb(255, 230, 0);">&starf;</span>      
+                        <span style="font-size:300%;color:rgb(255, 230, 0);">&starf;</span>
+                        <span style="font-size:300%;color:rgb(255, 230, 0);">&starf;</span>
+                            
+                    {% endif %}
+                        
                     <p class="p-2 h5 text-dark">{{ post.body }}</p>
-                    <div class=" border border border-secondary rounded m-6"></div>
+                    <div class="  border border-secondary rounded m-6"></div>
                         <p class="p-2 h5 text-dark">{{ post.ticket.title }}</p>
                         {% if post.ticket.image %}
-                            <img class="p-2" src="{{ post.ticket.image.url }}">
+                            <img class="p-2" src="{{ post.ticket.image.url}}">
+                        {% else %}
+                            <p></p> 
                         {% endif %}
                         <p class="p-2 h5">{{ post.ticket.content }}</p>
                     </div>
-                
                 </div>
             {% elif post.content_type == 'REVIEW' and post.content_type == 'TICKET' %} 
-                <table class="post table-bordered  border-secondary rounded m-4">
+                <div class="post" style="border: 1px solid silver;height:60px;">
                     <div class="d-flex flex-row">
                         <p class="p-2 h5 text-primary">{{ post.user }}</p>
                         <p class="p-2 h5 text-primary">{{ post.id }}</p>
@@ -57,17 +97,52 @@
                     <h4 class="p-2">post : {{ post.title }}</h4>
                     {% if post.image %}
                         <img class="p-2" src="{{ post.image.url }}">
+                    {% else %}
+                       <p></p> 
                     {% endif %}
-                    <table class=" post table-bordered  border-secondary rounded m-4">
+                    <div class="m-4">
                     
                         <p class="p-4 h5 text-dark">{{ post.headline }}</p>
-                        <p class="p-4 h5 text-dark">{{ post.rating }}</p>
+                        {% if post.rating == 0 %}
+                        <span style="font-size:300%;color:rgb(0, 0, 0);">&#x2606;</span>     
+                        <span style="font-size:300%;color:rgb(0, 0, 0);">&#x2606;</span>     
+                        <span style="font-size:300%;color:rgb(0, 0, 0);">&#x2606;</span>     
+                        <span style="font-size:300%;color:rgb(0, 0, 0);">&#x2606;</span>     
+                        <span style="font-size:300%;color:rgb(0, 0, 0);">&#x2606;</span>     
+                             
+                        {% elif post.rating == 1  %}
+                            <span style="font-size:300%;color:rgb(255, 230, 0);">&#x2605;</span>
+                                
+                        {% elif post.rating == 2  %}
+                            <span style="font-size:300%;color:rgb(255, 230, 0);">&starf;</span>
+                            <span style="font-size:300%;color:rgb(255, 230, 0);">&starf;</span>
+                            
+                        {% elif post.rating == 3  %}
+                            <span style="font-size:300%;color:rgb(255, 230, 0);">&starf;</span>
+                            <span style="font-size:300%;color:rgb(255, 230, 0);">&starf;</span>      
+                            <span style="font-size:300%;color:rgb(255, 230, 0);">&starf;</span>
+                                
+                        {% elif post.rating == 4  %}
+                            <span style="font-size:300%;color:rgb(255, 230, 0);">&starf;</span>
+                            <span style="font-size:300%;color:rgb(255, 230, 0);">&starf;</span>      
+                            <span style="font-size:300%;color:rgb(255, 230, 0);">&starf;</span>      
+                            <span style="font-size:300%;color:rgb(255, 230, 0);">&starf;</span>
+                        
+                        {% elif post.rating == 5  %}
+                            <span style="font-size:300%;color:rgb(255, 230, 0);">&starf;</span>
+                            <span style="font-size:300%;color:rgb(255, 230, 0);">&starf;</span>      
+                            <span style="font-size:300%;color:rgb(255, 230, 0);">&starf;</span>      
+                            <span style="font-size:300%;color:rgb(255, 230, 0);">&starf;</span>
+                            <span style="font-size:300%;color:rgb(255, 230, 0);">&starf;</span>
+                                
+                        {% endif %}
                         <p class="p4 h5 text-dark">{{ post.body }}</p>
                     
-                    </table> class="btn btn-dark m-2 " href="{% url 'review_create'  post.id  %}">Create a review</a>
-                </table>
+                    </div> 
+                </div>
 
             {% endif %}
+        </div>
             
             
         {% endfor %}    
