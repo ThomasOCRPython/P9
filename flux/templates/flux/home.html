@@ -21,7 +21,7 @@
                         <p class="p-2 h5 text-primary col-4">{{ post.id }}</p>
                         <p class=" p-2 ms-auto col-2">{{ post.date_created|date:"d F Y" }} </p>
                     </div>
-                    <h4 class="p-2 col-2">post : {{ post.title }}</h4>
+                    <h4 class="p-2 col-2">Title : {{ post.title }}</h4>
                     
                     {% if post.image %}
                         <img class="p-2 col-2" src="{{ post.image.url }}">
@@ -32,6 +32,7 @@
                     
                     <!-- <a class="btn btn-dark  m-2 " class="col-2" href="{% url 'review_create'  post.id  %}">Create a review</a> -->
                     {% endif %}
+                    <h4 class="p-2 col-2">{{ post.content }}</h4>
                     
                     
                     

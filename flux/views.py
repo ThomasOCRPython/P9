@@ -72,6 +72,7 @@ def review(request, ticket_id=None):
             review.save()
             ticket.starred = True
             ticket.save()
+            
             return redirect('home')   
     return render(request, 'flux/create_review_post.html', context={'review_form': review_form, 'ticket' : ticket})
 

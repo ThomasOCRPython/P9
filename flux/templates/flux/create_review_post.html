@@ -3,12 +3,12 @@
     <div  class="group-form">
         {% if ticket.id == None %}
             <h2>Create a review</h2>
-            <form   method="POST" >
-                {% for radio in review_form.rating %}
+            <form   method="post" >
+                <!-- {% for radio in review_form.rating %}
                     <div class="form-check form-check-inline">
                         {{ radio }}   
                     </div>
-                {% endfor %}
+                {% endfor %} -->
             <!-- <form   method="POST" > 
                 <div class="m-2">
                     {{ review_form.headline }}
@@ -27,23 +27,11 @@
             </form>
         {% elif ticket.id  %}
             <h2>Create a review</h2>
-            <form   method="post" action="{% url  'review_create' ticket.id %}" >
-                {% for radio in review_form.rating %}
-                <div class="form-check form-check-inline">
-                    {{ radio }}   
-                </div>
-                {% endfor %}
-            
-                <div class="m-2">
-                    {{ review_form.headline }}
-                </div>
-                
-                
-                <div class="m-2">
-                    {{ review_form.body }}
-                </div>
-            
+            <!-- <form   method="post" > -->
+            <form   method="POST" action="{% url  'review_create' ticket.id %}" >
+                {{ review_form.as_p }}
                 {% csrf_token %}
+                
                 <button class="btn btn-primary m-2" type="submit">Publier</button>
             </form>
         {% endif %}

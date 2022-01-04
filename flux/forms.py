@@ -18,14 +18,16 @@ class DeleteTicketForm(forms.Form):
 
 class ReviewForm(forms.ModelForm):
     edit_review = forms.BooleanField(widget=forms.HiddenInput, initial=True)
+    CHOICES = [(0,0),(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)]
+    rating = forms.ChoiceField(choices=CHOICES, widget=forms.RadioSelect())
 
     class Meta:
         
         model = models.Review
         fields = ['headline','rating','body']
-        CHOICES = [(0,0),(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)]
-        widgets = {"rating": forms.RadioSelect(choices=CHOICES)
-                   }
+        # CHOICES = [(0,0),(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)]
+        # widgets = {"rating": forms.RadioSelect(choices=CHOICES)
+        #            }
        
         
         
