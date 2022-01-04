@@ -9,20 +9,21 @@ import flux.urls
 import followers.urls
 
 
-
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', LoginView.as_view(
-            template_name='authentification/login.html',
-            redirect_authenticated_user=True),
-        name='login'),
-    path('logout/', authentification.views.logout_user, name='logout'),
-    path('signup/', authentification.views.signup_page, name='signup'),
-    path('home/', include(flux.urls)),
-    path('user_follow/', include(followers.urls)),
-    
+    path("admin/", admin.site.urls),
+    path(
+        "",
+        LoginView.as_view(
+            template_name="authentification/login.html",
+            redirect_authenticated_user=True,
+        ),
+        name="login",
+    ),
+    path("logout/", authentification.views.logout_user, name="logout"),
+    path("signup/", authentification.views.signup_page, name="signup"),
+    path("home/", include(flux.urls)),
+    path("user_follow/", include(followers.urls)),
 ]
 
 if settings.DEBUG:
-    urlpatterns += static(
-        settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
