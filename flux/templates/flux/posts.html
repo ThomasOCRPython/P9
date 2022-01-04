@@ -9,36 +9,77 @@
             
             <div class="post border border border-secondary rounded m-4 ">
                 <div class="d-flex flex-row">
-                    <p class="p-2 h5 text-primary">{{ post.user }}</p>
-                    <p class="p-2 h5 text-primary">{{ post.id }}</p>
-                    <p class=" p-2 ms-auto">{{ post.date_created|date:"d F Y" }} </p>
+                    <div class="col-8">
+                        <div class="d-flex flex-row">
+                            <p class="p-2 h5 text-primary">{{ post.user }}</p>
+                            <p class="p-2 h5 text-primary">{{ post.id }}</p>
+                            <p class=" p-2 ms-auto align-self-end">{{ post.date_created|date:"d F Y" }} </p>
+                        </div>
+                        <h4 class="p-2">post : {{ post.title }}</h4>
+                        {% if post.image %}
+                            <img class="p-2" src="{{ post.image.url }}">
+                        {% endif %}
+                        <p class="p-2 h5">{{ post.content }}</p>
+                    </div>
+                    <div class=" ms-auto pl-4  align-self-end">
+                        <p><a  class="btn btn-danger m-2"  class="btn btn-danger m-2" href="{% url 'edit_ticket' post.id %}">Modifier le billet</a></p>
+                        <p><a  class="btn btn-danger m-2" href="{% url 'delete_ticket' post.id %}">Supprimer le billet</a></p>
+                    </div>
                 </div>
-                <h4 class="p-2">post : {{ post.title }}</h4>
-                {% if post.image %}
-                    <img class="p-2" src="{{ post.image.url }}">
-                {% endif %}
-                <p class="p-2 h5">{{ post.content }}</p>
-                <p><a class=" btn btn-danger m-2" href="{% url 'edit_ticket' post.id %}">Modifier le billet</a></p>
-                <p><a class=" btn btn-danger m-2" href="{% url 'delete_ticket' post.id %}">Supprimer le billet</a></p>
-                
-                
+                    
+               
             </div>
         {% elif post.content_type == 'REVIEW' %}
-            <div class="card-block border border-secondary m-4">
-            
-                <p class="p-2 h5 text-dark">{{ post.headline }}</p>
-                <p class="p-2 h5 text-dark">{{ post.rating }}</p>
-                <p class="p-2 h5 text-dark">{{ post.body }}</p>
-                <div class=" border border border-secondary rounded m-6"></div>
-                    <p class="p-2 h5 text-dark">{{ post.ticket.title }}</p>
-                    {% if post.ticket.image %}
-                        <img class="p-2" src="{{ post.ticket.image.url }}">
-                    {% endif %}
-                    <p class="p-2 h5">{{ post.ticket.content }}</p>
+            <div class=" border border-secondary m-4">
+                <div class="d-flex flex-row">
+                    <div class="col-8">
+                        <p class="p-2 h5 text-dark">{{ post.headline }}</p>
+                        {% if post.rating == 0 %}
+                            <span style="font-size:300%;color:rgb(0, 0, 0);">&#x2606;</span>     
+                            <span style="font-size:300%;color:rgb(0, 0, 0);">&#x2606;</span>     
+                            <span style="font-size:300%;color:rgb(0, 0, 0);">&#x2606;</span>     
+                            <span style="font-size:300%;color:rgb(0, 0, 0);">&#x2606;</span>     
+                            <span style="font-size:300%;color:rgb(0, 0, 0);">&#x2606;</span>                   
+                        {% elif post.rating == 1  %}
+                            <span style="font-size:300%;color:rgb(255, 230, 0);">&#x2605;</span>
+                                        
+                        {% elif post.rating == 2  %}
+                            <span style="font-size:300%;color:rgb(255, 230, 0);">&starf;</span>
+                            <span style="font-size:300%;color:rgb(255, 230, 0);">&starf;</span>
+                                    
+                        {% elif post.rating == 3  %}
+                            <span style="font-size:300%;color:rgb(255, 230, 0);">&starf;</span>
+                            <span style="font-size:300%;color:rgb(255, 230, 0);">&starf;</span>      
+                            <span style="font-size:300%;color:rgb(255, 230, 0);">&starf;</span>
+                                        
+                        {% elif post.rating == 4  %}
+                            <span style="font-size:300%;color:rgb(255, 230, 0);">&starf;</span>
+                            <span style="font-size:300%;color:rgb(255, 230, 0);">&starf;</span>      
+                            <span style="font-size:300%;color:rgb(255, 230, 0);">&starf;</span>      
+                            <span style="font-size:300%;color:rgb(255, 230, 0);">&starf;</span>
+                                
+                        {% elif post.rating == 5  %}
+                            <span style="font-size:300%;color:rgb(255, 230, 0);">&starf;</span>
+                            <span style="font-size:300%;color:rgb(255, 230, 0);">&starf;</span>      
+                            <span style="font-size:300%;color:rgb(255, 230, 0);">&starf;</span>      
+                            <span style="font-size:300%;color:rgb(255, 230, 0);">&starf;</span>
+                            <span style="font-size:300%;color:rgb(255, 230, 0);">&starf;</span>
+                                        
+                        {% endif %}
+                        <p class="p-2 h5 text-dark">{{ post.body }}</p>
+                        <div style="border: 1px solid silver;height:300px;">
+                            <p class="p-2 h5 text-dark">{{ post.ticket.title }}</p>
+                            {% if post.ticket.image %}
+                                <img class="p-2" src="{{ post.ticket.image.url }}">
+                            {% endif %}
+                            <p class="p-2 h5">{{ post.ticket.content }}</p>
+                        </div>
+                    </div>
+                    <div class=" ms-auto pl-4  align-self-end">
+                        <p><a  class=" btn btn-danger m-2" href="{% url 'edit_review' post.id %}">Modifier la review</a></p>
+                        <p><a  class=" btn btn-danger m-2" href="{% url 'delete_review' post.id %}">Supprimer la review</a></p>
+                    </div>
                 </div>
-                <p><a class=" btn btn-danger m-2" href="{% url 'edit_review' post.id %}">Modifier la review</a></p>
-                <p><a class=" btn btn-danger m-2" href="{% url 'delete_review' post.id %}">Supprimer la review</a></p>
-            
             </div>
         {% elif post.content_type == 'REVIEW' and post.content_type == 'TICKET' %} 
             <table class="post table-bordered  border-secondary rounded m-4">
@@ -54,13 +95,45 @@
                 <table class=" post table-bordered  border-secondary rounded m-4">
                 
                     <p class="p-4 h5 text-dark">{{ post.headline }}</p>
-                    <p class="p-4 h5 text-dark">{{ post.rating }}</p>
+                    {% if post.rating == 0 %}
+                        <span style="font-size:300%;color:rgb(0, 0, 0);">&#x2606;</span>     
+                        <span style="font-size:300%;color:rgb(0, 0, 0);">&#x2606;</span>     
+                        <span style="font-size:300%;color:rgb(0, 0, 0);">&#x2606;</span>     
+                        <span style="font-size:300%;color:rgb(0, 0, 0);">&#x2606;</span>     
+                        <span style="font-size:300%;color:rgb(0, 0, 0);">&#x2606;</span>     
+                                    
+                    {% elif post.rating == 1  %}
+                        <span style="font-size:300%;color:rgb(255, 230, 0);">&#x2605;</span>
+                                    
+                    {% elif post.rating == 2  %}
+                        <span style="font-size:300%;color:rgb(255, 230, 0);">&starf;</span>
+                        <span style="font-size:300%;color:rgb(255, 230, 0);">&starf;</span>
+                                
+                    {% elif post.rating == 3  %}
+                        <span style="font-size:300%;color:rgb(255, 230, 0);">&starf;</span>
+                        <span style="font-size:300%;color:rgb(255, 230, 0);">&starf;</span>      
+                        <span style="font-size:300%;color:rgb(255, 230, 0);">&starf;</span>
+                                    
+                    {% elif post.rating == 4  %}
+                        <span style="font-size:300%;color:rgb(255, 230, 0);">&starf;</span>
+                        <span style="font-size:300%;color:rgb(255, 230, 0);">&starf;</span>      
+                        <span style="font-size:300%;color:rgb(255, 230, 0);">&starf;</span>      
+                        <span style="font-size:300%;color:rgb(255, 230, 0);">&starf;</span>
+                            
+                    {% elif post.rating == 5  %}
+                        <span style="font-size:300%;color:rgb(255, 230, 0);">&starf;</span>
+                        <span style="font-size:300%;color:rgb(255, 230, 0);">&starf;</span>      
+                        <span style="font-size:300%;color:rgb(255, 230, 0);">&starf;</span>      
+                        <span style="font-size:300%;color:rgb(255, 230, 0);">&starf;</span>
+                        <span style="font-size:300%;color:rgb(255, 230, 0);">&starf;</span>
+                                    
+                    {% endif %}
                     <p class="p4 h5 text-dark">{{ post.body }}</p>
                 
-                <p><a class=" btn btn-danger m-2" href="{% url 'edit_ticket' post.id %}">Modifier le billet</a></p>
-                <p><a class=" btn btn-danger m-2" href="{% url 'delete_ticket' post.id %}">Supprimer le billet</a></p>
+                    <p><a  class=" btn btn-danger m-2" href="{% url 'edit_ticket' post.id %}">Modifier le billet</a></p>
+                    <p><a class=" btn btn-danger m-2" href="{% url 'delete_ticket' post.id %}">Supprimer le billet</a></p>
                 
-                
+                </table>
             </table>
 
         {% endif %}
